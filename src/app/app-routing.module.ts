@@ -13,6 +13,10 @@ const routes: Routes = [
     component: ErrorPageComponent
   },
   {
+    path: 'heroes',
+    loadChildren: () => import('./heroes/heroes.module').then(m => m.HeroesModule)
+  },
+  {
     path:'**',
     redirectTo: '404'
   }
