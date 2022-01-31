@@ -11,6 +11,7 @@ import { HeroeComponent } from './pages/heroe/heroe.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ListadoComponent } from './pages/listado/listado.component';
 import { HeroeTarjetaComponent } from './components/heroe-tarjeta/heroe-tarjeta.component';
+
 import { ImagenPipe } from './pipes/imagen.pipe';
 
 
@@ -32,4 +33,4 @@ import { ImagenPipe } from './pipes/imagen.pipe';
     HeroesRoutingModule
   ]
 })
-export class HeroesModule { }
+export class HeroesModule {  }
