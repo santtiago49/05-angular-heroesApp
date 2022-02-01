@@ -15,11 +15,13 @@
         </mat-card-content>
     
         <mat-card-actions>
-            <button mat-button>
+            <button mat-button
+                [routerLink]="['/heroes/editar', heroe.id]">
                 Editar
             </button>
-            
-            <button mat-button>
+        
+            <button mat-button
+                [routerLink]="['/heroes', heroe.id]">
                 Info
             </button>
         </mat-card-actions>
