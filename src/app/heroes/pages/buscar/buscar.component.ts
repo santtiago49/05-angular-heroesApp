@@ -11,10 +11,9 @@ import { HeroesService } from '../../services/heroes.service';
 })
 export class BuscarComponent implements OnInit {
 
-
   termino: string = '';
   heroes: Heroe[] = [];
-  heroeSeleccionado!: Heroe;
+  heroeSeleccionado: Heroe | undefined;
 
   constructor( private heroesService: HeroesService ) { }
 
@@ -22,17 +21,22 @@ export class BuscarComponent implements OnInit {
   }
 
   buscando(){
-    this.heroesService.getSugerencias(this.termino)
+    this.heroesService.getSugerencias( this.termino.trim() )
       .subscribe( heroe => this.heroes = heroe)
   }
 
   opcionSeleccionada(evento: MatAutocompleteSelectedEvent){
+
+    if( !evento.option.value ){
+      this.heroeSeleccionado = undefined;
+      return;
+    }
+
     const heroe: Heroe = evento.option.value;
     this.termino = heroe.superhero;
-
+    
     this.heroesService.getHeroePorId( heroe.id! )
       .subscribe( heroe => this.heroeSeleccionado = heroe)
   }
-  
 
 }
