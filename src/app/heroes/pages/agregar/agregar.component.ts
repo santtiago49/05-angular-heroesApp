@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { switchMap } from 'rxjs';
+
 import { Heroe, Publisher } from '../../interfaces/heroes.interface';
 import { HeroesService } from '../../services/heroes.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+
+import { ConfirmarComponent } from '../../components/confirmar/confirmar.component';
 
 @Component({
   selector: 'app-agregar',
@@ -39,7 +44,9 @@ export class AgregarComponent implements OnInit {
 
   constructor( private heroesService: HeroesService,
                private activatedRoute: ActivatedRoute,
-               private router: Router ){ }
+               private router: Router,
+               private snackbar: MatSnackBar ,
+               private dialog: MatDialog){ }
 
   ngOnInit(): void {
 
@@ -62,20 +69,40 @@ export class AgregarComponent implements OnInit {
 
     if (this.heroe.id){
       this.heroesService.actualizarHeroe(this.heroe)
-        .subscribe( resp => console.log('Actualizando', resp))
+        .subscribe( resp => this.mostrarSnackbar('Héroe actualizado'))
     } else {
       this.heroesService.agregarHeroe(this.heroe)
       .subscribe( 
-        heroe => this.router.navigate(['/heroes/editar', heroe.id ])
+        heroe => {
+          this.router.navigate(['/heroes/editar', heroe.id ]),
+          this.mostrarSnackbar('Héroe creado')
+        }
        )
     }
   }
 
-  borrar(){
-    this.heroesService.borrarHeroe( this.heroe.id! )
-      .subscribe( resp => {
-        this.router.navigate(['/heroes']);
-      } )
+  borrarHeroe(){
+
+    const  dialog = this.dialog.open(ConfirmarComponent, {
+      width: "250px",
+      data: this.heroe
+    })
+
+    dialog.afterClosed()
+      .subscribe( resultado => {
+        if (resultado){
+          this.heroesService.borrarHeroe( this.heroe.id! )
+            .subscribe( resp => {
+              this.router.navigate(['/heroes']);
+              this.mostrarSnackbar('Héroe borrado')        
+            });
+        }
+      })
+
+  }
+
+  mostrarSnackbar( mensaje: string ){
+    this.snackbar.open( mensaje, 'Cerrar', { duration: 2500 })
   }
 
 }
