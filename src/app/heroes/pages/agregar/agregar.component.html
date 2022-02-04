@@ -1,4 +1,9 @@
-<h1>Añadir héroe <small>{{heroe.superhero}}</small></h1>
+<h1 *ngIf="!heroe.id; else nombreHeroe">Añadir héroe </h1>
+
+<ng-template #nombreHeroe>
+    <h1>{{heroe.superhero | titlecase }}</h1>
+</ng-template>
+
 
 <div fxLayout="row" fxLayoutGap="40">
 
@@ -55,12 +60,30 @@
                    required>
         </mat-form-field>
 
-        <button mat-raised-button 
-                (click)="guardar()"
-                color="primary">
-            <mat-icon>grading</mat-icon>
-            Guardar
-        </button>
+        <div fxLayout="row">
+
+            <button mat-raised-button 
+                    fxFlex="45"
+                    (click)="guardar()"
+                    color="primary">
+                <mat-icon>grading</mat-icon>
+                Guardar
+            </button>
+    
+            <span class='spacer'></span>
+    
+            <button mat-raised-button 
+                    fxFlex="45"
+                    (click)="borrar()"
+                    *ngIf="heroe.id"
+                    color="warn">
+                <mat-icon>delete</mat-icon>
+                Borrar
+            </button>
+
+        </div>
+
+
 
      </div>
 
