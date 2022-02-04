@@ -3,7 +3,6 @@ import { Heroe, Publisher } from '../../interfaces/heroes.interface';
 import { HeroesService } from '../../services/heroes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 
 @Component({
   selector: 'app-agregar',
@@ -44,12 +43,15 @@ export class AgregarComponent implements OnInit {
 
   ngOnInit(): void {
 
+    if(!this.router.url.includes('editar')){
+      return;
+    }
     this.activatedRoute.params
       .pipe(
         switchMap( ({id}) => this.heroesService.getHeroePorId( id ))
       )
       .subscribe( heroe => this.heroe = heroe)
-      
+
   }
 
 
@@ -67,8 +69,6 @@ export class AgregarComponent implements OnInit {
         heroe => this.router.navigate(['/heroes/editar', heroe.id ])
        )
     }
-    
-
   }
 
 }
