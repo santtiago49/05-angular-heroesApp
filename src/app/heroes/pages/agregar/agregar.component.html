@@ -1,7 +1,7 @@
 <h1 *ngIf="!heroe.id; else nombreHeroe">Añadir héroe </h1>
 
 <ng-template #nombreHeroe>
-    <h1>{{heroe.superhero | titlecase }}</h1>
+    <h1>Editando héroe - {{heroe.superhero | titlecase }}</h1>
 </ng-template>
 
 
@@ -67,7 +67,7 @@
                     (click)="guardar()"
                     color="primary">
                 <mat-icon>grading</mat-icon>
-                Guardar
+                {{ (heroe.id) ? 'Actualizar' : 'Crear' }}
             </button>
     
             <span class='spacer'></span>
