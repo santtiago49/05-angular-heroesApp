@@ -14,9 +14,6 @@ export class LoginComponent {
                private router: Router, ) { }
 
   login(){
-    
-    // ir al backend
-    // usuario
     this.authService.login()
       .subscribe( resp => {
         if( resp.id ){
@@ -25,12 +22,10 @@ export class LoginComponent {
       });
     }
 
-
-    ingresarSinLogin(){
-      this.authService.logout()
-      this.router.navigate(['/heroes'])
-    }
-
-    // this.router.navigate(['/heroes/listado'])
-
+  ingresarSinLogin(){
+    this.authService.logout()
+    this.router.navigate(['/heroes'])
   }
+
+
+}
